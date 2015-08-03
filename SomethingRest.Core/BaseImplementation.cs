@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SomethingRest.Core
 {
-    public abstract class BaseImplementation : IInterfaceImplementation
+    public class BaseImplementation : IInterfaceImplementation
     {
         protected Type ContainerType { get; set; }
 
@@ -72,7 +72,7 @@ namespace SomethingRest.Core
                 ilGen.Emit(OpCodes.Ldarg_0);
                 ilGen.Emit(OpCodes.Ldloc_1);
 
-                ilGen.Emit(OpCodes.Callvirt, this.GetType().GetMethod("Method2"));
+                ilGen.Emit(OpCodes.Callvirt, this.GetType().GetMethod("Invoke"));
 
                 if (isVoid)
                 {
@@ -88,22 +88,7 @@ namespace SomethingRest.Core
             return instance;
         }
 
-        public object Method(string a, string b)
-        {
-            var parameters = new List<object>();
-            parameters.Add(a);
-            parameters.Add(b);
-
-            var o = new CallParameters
-            {
-                Url = "http://tempuri/",
-                Method = "GET",
-                Parameters = parameters
-            };
-            return Method2(o);
-        }
-
-        public object Method2(CallParameters data)
+        public object Invoke(CallParameters data)
         {
             return data;
         }
