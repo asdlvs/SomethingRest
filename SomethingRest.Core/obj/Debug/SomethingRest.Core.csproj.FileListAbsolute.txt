@@ -1,0 +1,5 @@
+c:\users\виталий\documents\visual studio 2015\Projects\SomethingRest\SomethingRest.Core\obj\Debug\SomethingRest.Core.csprojResolveAssemblyReference.cache
+c:\users\виталий\documents\visual studio 2015\Projects\SomethingRest\SomethingRest.Core\bin\Debug\SomethingRest.Core.dll
+c:\users\виталий\documents\visual studio 2015\Projects\SomethingRest\SomethingRest.Core\bin\Debug\SomethingRest.Core.pdb
+c:\users\виталий\documents\visual studio 2015\Projects\SomethingRest\SomethingRest.Core\obj\Debug\SomethingRest.Core.dll
+c:\users\виталий\documents\visual studio 2015\Projects\SomethingRest\SomethingRest.Core\obj\Debug\SomethingRest.Core.pdb

@@ -1,0 +1,8 @@
+c:\users\виталий\documents\visual studio 2015\Projects\SomethingRest\SomethingRest.Runner\bin\Debug\SomethingRest.Runner.exe.config
+c:\users\виталий\documents\visual studio 2015\Projects\SomethingRest\SomethingRest.Runner\bin\Debug\SomethingRest.Runner.exe
+c:\users\виталий\documents\visual studio 2015\Projects\SomethingRest\SomethingRest.Runner\bin\Debug\SomethingRest.Runner.pdb
+c:\users\виталий\documents\visual studio 2015\Projects\SomethingRest\SomethingRest.Runner\bin\Debug\SomethingRest.Core.dll
+c:\users\виталий\documents\visual studio 2015\Projects\SomethingRest\SomethingRest.Runner\bin\Debug\SomethingRest.Core.pdb
+c:\users\виталий\documents\visual studio 2015\Projects\SomethingRest\SomethingRest.Runner\obj\Debug\SomethingRest.Runner.csprojResolveAssemblyReference.cache
+c:\users\виталий\documents\visual studio 2015\Projects\SomethingRest\SomethingRest.Runner\obj\Debug\SomethingRest.Runner.exe
+c:\users\виталий\documents\visual studio 2015\Projects\SomethingRest\SomethingRest.Runner\obj\Debug\SomethingRest.Runner.pdb
