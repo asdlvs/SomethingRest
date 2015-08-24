@@ -1,4 +1,5 @@
-﻿using SomethingRest.Core;
+﻿using System;
+using SomethingRest.Core;
 
 namespace SomethingRest.Runner
 {
@@ -7,8 +8,7 @@ namespace SomethingRest.Runner
         static void Main(string[] args)
         {
             var instance = new BaseImplementation().Implement<ITestInterface>();
-            var res = instance.Test1("Hello", " world");
-            var res2 = instance.Test2(new { A = 1, B = 2 }, "Hlelo wrodl");
+            var res = instance.Test1(5);
         }
     }
 }

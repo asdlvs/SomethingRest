@@ -1,9 +1,12 @@
-﻿namespace SomethingRest.Runner
+﻿using System.Threading.Tasks;
+using SomethingRest.Core.Attributes;
+
+namespace SomethingRest.Runner
 {
+    [RestContract("http://localhost:13455/api/")]
     public interface ITestInterface
     {
-        object Test1(string url1, string url2);
-
-        object Test2(object o1, string s1);
+        [RestMethod("values/{id}")]
+        string Test1(int id);
     }
 }

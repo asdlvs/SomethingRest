@@ -1,21 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Net.Http;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
+using SomethingRest.Core.Attributes;
+using SomethingRest.Core.Implementator;
 
 namespace SomethingRest.Core
 {
     public class BaseImplementation : IInterfaceImplementation
     {
         protected Type ContainerType { get; set; }
-
-        private const MethodAttributes ImplicitImplementation =
-            MethodAttributes.Public | MethodAttributes.Virtual | MethodAttributes.HideBySig;
 
         public T Implement<T>()
         {
@@ -30,67 +23,20 @@ namespace SomethingRest.Core
             TypeBuilder typeBuilder = module.DefineType(interfaceType.Name + "Impl", TypeAttributes.Public | TypeAttributes.AutoClass | TypeAttributes.AnsiClass | TypeAttributes.BeforeFieldInit);
             typeBuilder.AddInterfaceImplementation(interfaceType);
 
+            var restContract = interfaceType.GetCustomAttribute<RestContractAttribute>();
+
             foreach (var interfaceMethod in interfaceType.GetMethods())
             {
-                var isVoid = interfaceMethod.ReturnType == typeof(void);
-                var parameterTypes = interfaceMethod.GetParameters().Select(parameter => parameter.ParameterType).ToList();
-
-                MethodBuilder methodBuilder = typeBuilder.DefineMethod(interfaceMethod.Name,
-                    ImplicitImplementation,
-                    interfaceMethod.ReturnType,
-                    parameterTypes.ToArray());
-
-                ILGenerator ilGen = methodBuilder.GetILGenerator();
-                ilGen.DeclareLocal(typeof (List<object>));
-                ilGen.DeclareLocal(typeof (CallParameters));
-                
-                ilGen.Emit(OpCodes.Newobj, typeof(List<object>).GetConstructor(new Type[0]));
-                ilGen.Emit(OpCodes.Stloc_0);
-
-                for (int i = 0; i < parameterTypes.Count; i++)
+                new DefaultImplementator
                 {
-                    ilGen.Emit(OpCodes.Ldloc_0);
-                    ilGen.Emit(OpCodes.Ldarg, i + 1);
-                    ilGen.Emit(OpCodes.Callvirt, typeof(List<object>).GetMethod("Add"));
-                }
-
-                ilGen.Emit(OpCodes.Newobj, typeof (CallParameters).GetConstructor(new Type[0]));
-
-                ilGen.Emit(OpCodes.Dup);
-                ilGen.Emit(OpCodes.Ldstr, "http://tempuri/");
-                ilGen.Emit(OpCodes.Callvirt, typeof(CallParameters).GetMethod("set_Url"));
-
-                ilGen.Emit(OpCodes.Dup);
-                ilGen.Emit(OpCodes.Ldstr, "GET");
-                ilGen.Emit(OpCodes.Callvirt, typeof(CallParameters).GetMethod("set_Method"));
-
-                ilGen.Emit(OpCodes.Dup);
-                ilGen.Emit(OpCodes.Ldloc_0);
-                ilGen.Emit(OpCodes.Callvirt, typeof(CallParameters).GetMethod("set_Parameters"));
-
-                ilGen.Emit(OpCodes.Stloc_1);
-                ilGen.Emit(OpCodes.Ldarg_0);
-                ilGen.Emit(OpCodes.Ldloc_1);
-
-                ilGen.Emit(OpCodes.Callvirt, this.GetType().GetMethod("Invoke"));
-
-                if (isVoid)
-                {
-                    ilGen.Emit(OpCodes.Pop);
-                }
-
-                ilGen.Emit(OpCodes.Ret);
+                    RestContract = restContract
+                }.Implement(typeBuilder, interfaceMethod);
             }
 
             var implementationType = typeBuilder.CreateType();
             var instance = (T)Activator.CreateInstance(implementationType);
 
             return instance;
-        }
-
-        public object Invoke(CallParameters data)
-        {
-            return data;
         }
     }
 
