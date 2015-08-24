@@ -84,9 +84,7 @@
     <Compile Include="RequestMakers\RequestFactory.cs" />
     <Compile Include="RequestMethod.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Formatters\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Compile Include="Content\MultipartFormDataContentWriter.cs" />
     <None Include="packages.config" />
