@@ -111,20 +111,20 @@ namespace SomethingRest.Core.Implementator
                 var request = new RequestFactory().Create(data.Method, client);
                 client.DefaultRequestHeaders.Accept.Add(MediaTypeWithQualityHeaderValue.Parse(data.Accept));
 
+                var contentSource = new ObjectContentWriter
+                {
+                    Accept = data.Accept,
+                    ContentType = data.ContentType
+                };
                 HttpContent content = null;
                 if (unprocessedParameters.Any())
                 {
-                    content = new ObjectContentWriter
-                    {
-                        Accept = data.Accept,
-                        ContentType = data.ContentType
-                    }.Create(unprocessedParameters.FirstOrDefault().Value);
+                    content = contentSource.Create(unprocessedParameters.FirstOrDefault().Value);
                 }
 
                 HttpResponseMessage response = request.Make(url, content).Result;
-                var responseResult = response.Content.ReadAsStringAsync().Result;
 
-                var result = Convert.ChangeType(responseResult, data.ReturnType);
+                var result = contentSource.Read(response.Content, data.ReturnType);
                 return result;
             }
         }

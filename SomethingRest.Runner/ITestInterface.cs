@@ -8,18 +8,15 @@ namespace SomethingRest.Runner
     public interface ITestInterface
     {
         [RestMethod("values/{id}")]
-        string Test1(int id);
+        Product Get(int id);
 
-        [RestMethod("values", RequestMethod.Post, contentType: "application/xml")]
-        int Post(string value);
+        [RestMethod("values", RequestMethod.Post)]
+        int Post(Product value);
 
         [RestMethod("values", RequestMethod.Put)]
-        void Put(int id, string value);
+        void Put(int id, Product value);
 
         [RestMethod("values", RequestMethod.Delete)]
         void Delete(int id);
-
-        [RestMethod("values/products", RequestMethod.Post)]
-        int PostProduct(Product product);
     }
 }

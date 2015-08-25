@@ -8,17 +8,27 @@ namespace SomethingRest.Runner
         static void Main(string[] args)
         {
             var instance = new BaseImplementation().Implement<ITestInterface>();
-            instance.PostProduct(new Product
-            {
-                Customer = new Customer
-                {
-                    FirstName = "Vitaliy",
-                    LastName = "Lebedev"
-                },
-                Name = "IPad",
-                Id = 15
-            });
 
+            for (var i = 0; i < 10; i++)
+            {
+                var newP = new Product
+                {
+                    Customer = new Customer
+                    {
+                        FirstName = "Vitaliy" + i,
+                        LastName = "Lebedev" + i*2
+                    },
+                    Name = "IPad" + i*3,
+                    Id = i
+                };
+                var id = instance.Post(newP);
+
+                var product = instance.Get(id);
+
+                Console.WriteLine(newP.Equals(product));
+            }
+
+            Console.ReadKey();
         }
     }
 }
