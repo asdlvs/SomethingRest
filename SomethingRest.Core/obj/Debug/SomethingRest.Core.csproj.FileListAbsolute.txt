@@ -15,3 +15,6 @@ C:\D\Temp\SomethingRest\SomethingRest.Core\bin\Debug\System.Net.Http.Primitives.
 C:\D\Temp\SomethingRest\SomethingRest.Core\bin\Debug\System.Net.Http.WebRequest.dll
 C:\D\Temp\SomethingRest\SomethingRest.Core\bin\Debug\System.Net.Http.xml
 C:\D\Temp\SomethingRest\SomethingRest.Core\bin\Debug\System.Net.Http.WebRequest.xml
+C:\D\Temp\SomethingRest\SomethingRest.Core\bin\Debug\SomethingRest.Core.dll.config
+C:\D\Temp\SomethingRest\SomethingRest.Core\bin\Debug\Newtonsoft.Json.dll
+C:\D\Temp\SomethingRest\SomethingRest.Core\bin\Debug\Newtonsoft.Json.xml

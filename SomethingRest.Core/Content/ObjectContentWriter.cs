@@ -11,7 +11,7 @@ namespace SomethingRest.Core.Content
             var type = item.GetType();
             MediaTypeFormatter formatter = DefineFormatter(this.Accept, type);
             var content = new ObjectContent(type, item, formatter);
-            content.Headers.ContentType = MediaTypeHeaderValue.Parse(this.Accept);
+            content.Headers.ContentType = MediaTypeHeaderValue.Parse(this.ContentType);
             return content;
         }
     }

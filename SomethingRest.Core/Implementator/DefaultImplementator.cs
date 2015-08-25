@@ -3,9 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Reflection;
 using System.Reflection.Emit;
 using SomethingRest.Core.Attributes;
+using SomethingRest.Core.Content;
 using SomethingRest.Core.RequestMakers;
 
 namespace SomethingRest.Core.Implementator
@@ -59,6 +61,14 @@ namespace SomethingRest.Core.Implementator
             ilGen.Emit(OpCodes.Callvirt, typeof(CallParameters).GetMethod("set_Url"));
 
             ilGen.Emit(OpCodes.Dup);
+            ilGen.Emit(OpCodes.Ldstr, restMethod.Accept ?? RestContract.Accept);
+            ilGen.Emit(OpCodes.Callvirt, typeof(CallParameters).GetMethod("set_Accept"));
+
+            ilGen.Emit(OpCodes.Dup);
+            ilGen.Emit(OpCodes.Ldstr, restMethod.ContentType ?? RestContract.ContentType);
+            ilGen.Emit(OpCodes.Callvirt, typeof(CallParameters).GetMethod("set_ContentType"));
+
+            ilGen.Emit(OpCodes.Dup);
             ilGen.Emit(OpCodes.Ldc_I4, (int)restMethod.Method);
             ilGen.Emit(OpCodes.Callvirt, typeof(CallParameters).GetMethod("set_Method"));
 
@@ -66,13 +76,22 @@ namespace SomethingRest.Core.Implementator
             ilGen.Emit(OpCodes.Ldloc_0);
             ilGen.Emit(OpCodes.Callvirt, typeof(CallParameters).GetMethod("set_Parameters"));
 
+            ilGen.Emit(OpCodes.Dup);
+            ilGen.Emit(OpCodes.Ldtoken, method.ReturnType);
+            ilGen.Emit(OpCodes.Call, typeof(Type).GetMethod("GetTypeFromHandle"));
+            ilGen.Emit(OpCodes.Callvirt, typeof(CallParameters).GetMethod("set_ReturnType"));
+
             ilGen.Emit(OpCodes.Stloc_1);
             ilGen.Emit(OpCodes.Ldarg_0);
             ilGen.Emit(OpCodes.Ldloc_1);
 
             ilGen.Emit(OpCodes.Callvirt, this.GetType().GetMethod("Invoke"));
 
-            if (isVoid)
+            if (!method.ReturnType.IsClass)
+            {
+                ilGen.Emit(OpCodes.Unbox_Any, method.ReturnType);
+            }
+            else if (isVoid)
             {
                 ilGen.Emit(OpCodes.Pop);
             }
@@ -90,11 +109,23 @@ namespace SomethingRest.Core.Implementator
                 var unprocessedParameters = tuple.Item2;
 
                 var request = new RequestFactory().Create(data.Method, client);
+                client.DefaultRequestHeaders.Accept.Add(MediaTypeWithQualityHeaderValue.Parse(data.Accept));
 
-                HttpResponseMessage response = request.Make(url, null).Result;
+                HttpContent content = null;
+                if (unprocessedParameters.Any())
+                {
+                    content = new ObjectContentWriter
+                    {
+                        Accept = data.Accept,
+                        ContentType = data.ContentType
+                    }.Create(unprocessedParameters.FirstOrDefault().Value);
+                }
 
+                HttpResponseMessage response = request.Make(url, content).Result;
+                var responseResult = response.Content.ReadAsStringAsync().Result;
 
-                return response.Content.ReadAsStringAsync().Result;
+                var result = Convert.ChangeType(responseResult, data.ReturnType);
+                return result;
             }
         }
 

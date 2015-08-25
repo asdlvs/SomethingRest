@@ -8,7 +8,17 @@ namespace SomethingRest.Runner
         static void Main(string[] args)
         {
             var instance = new BaseImplementation().Implement<ITestInterface>();
-            var res = instance.Test1(5);
+            instance.PostProduct(new Product
+            {
+                Customer = new Customer
+                {
+                    FirstName = "Vitaliy",
+                    LastName = "Lebedev"
+                },
+                Name = "IPad",
+                Id = 15
+            });
+
         }
     }
 }

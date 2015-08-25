@@ -15,3 +15,5 @@ C:\D\Temp\SomethingRest\SomethingRest.Runner\bin\Debug\SomethingRest.Core.dll
 C:\D\Temp\SomethingRest\SomethingRest.Runner\bin\Debug\SomethingRest.Core.pdb
 C:\D\Temp\SomethingRest\SomethingRest.Runner\obj\Debug\SomethingRest.Runner.csprojResolveAssemblyReference.cache
 C:\D\Temp\SomethingRest\SomethingRest.Runner\bin\Debug\System.Net.Http.Formatting.dll
+C:\D\Temp\SomethingRest\SomethingRest.Runner\bin\Debug\Newtonsoft.Json.dll
+C:\D\Temp\SomethingRest\SomethingRest.Runner\bin\Debug\Newtonsoft.Json.xml
