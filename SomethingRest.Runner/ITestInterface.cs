@@ -8,7 +8,7 @@ namespace SomethingRest.Runner
     public interface ITestInterface
     {
         [RestMethod("values/{id}")]
-        Product Get(int id);
+        Task<Product> Get(int id);
 
         [RestMethod("values", RequestMethod.Post)]
         int Post(Product value);

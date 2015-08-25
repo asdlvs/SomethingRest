@@ -23,7 +23,8 @@ namespace SomethingRest.Runner
                 };
                 var id = instance.Post(newP);
 
-                var product = instance.Get(id);
+                var asyn = instance.Get(id);
+                var product = asyn.Result;
 
                 Console.WriteLine(newP.Equals(product));
             }

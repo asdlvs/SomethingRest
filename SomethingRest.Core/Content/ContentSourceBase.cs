@@ -13,7 +13,7 @@ namespace SomethingRest.Core.Content
     {
         public string Accept { get; set; }
 
-        public object Read(HttpContent content, Type type)
+        public object Read(Task<HttpResponseMessage> response, Type type)
         {
             if (typeof(Task).IsAssignableFrom(type) && type.IsGenericType)
             {

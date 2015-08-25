@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Threading.Tasks;
 using SomethingRest.Core.Attributes;
 using SomethingRest.Core.Content;
 using SomethingRest.Core.RequestMakers;
@@ -56,17 +57,9 @@ namespace SomethingRest.Core.Implementator
 
             ilGen.Emit(OpCodes.Newobj, typeof(CallParameters).GetConstructor(new Type[0]));
 
-            ilGen.Emit(OpCodes.Dup);
-            ilGen.Emit(OpCodes.Ldstr, RestContract.Url + restMethod.Url);
-            ilGen.Emit(OpCodes.Callvirt, typeof(CallParameters).GetMethod("set_Url"));
-
-            ilGen.Emit(OpCodes.Dup);
-            ilGen.Emit(OpCodes.Ldstr, restMethod.Accept ?? RestContract.Accept);
-            ilGen.Emit(OpCodes.Callvirt, typeof(CallParameters).GetMethod("set_Accept"));
-
-            ilGen.Emit(OpCodes.Dup);
-            ilGen.Emit(OpCodes.Ldstr, restMethod.ContentType ?? RestContract.ContentType);
-            ilGen.Emit(OpCodes.Callvirt, typeof(CallParameters).GetMethod("set_ContentType"));
+            SetStringProperty(ilGen, "Url", RestContract.Url + restMethod.Url);
+            SetStringProperty(ilGen, "Accept", restMethod.Accept ?? RestContract.Accept);
+            SetStringProperty(ilGen, "ContentType", restMethod.ContentType ?? RestContract.ContentType);
 
             ilGen.Emit(OpCodes.Dup);
             ilGen.Emit(OpCodes.Ldc_I4, (int)restMethod.Method);
@@ -99,6 +92,13 @@ namespace SomethingRest.Core.Implementator
             ilGen.Emit(OpCodes.Ret);
         }
 
+        private void SetStringProperty(ILGenerator ilGen, string property, string value)
+        {
+            ilGen.Emit(OpCodes.Dup);
+            ilGen.Emit(OpCodes.Ldstr, value);
+            ilGen.Emit(OpCodes.Callvirt, typeof (CallParameters).GetMethod("set_" + property));
+        }
+
         public object Invoke(CallParameters data)
         {
             using (var client = new HttpClient())
@@ -122,9 +122,8 @@ namespace SomethingRest.Core.Implementator
                     content = contentSource.Create(unprocessedParameters.FirstOrDefault().Value);
                 }
 
-                HttpResponseMessage response = request.Make(url, content).Result;
-
-                var result = contentSource.Read(response.Content, data.ReturnType);
+                Task<HttpResponseMessage> response = request.Make(url, content);
+                var result = contentSource.Read(response.Result.Content, data.ReturnType);
                 return result;
             }
         }
