@@ -18,8 +18,8 @@ namespace SomethingRest.Core.Content
             if (typeof(Task).IsAssignableFrom(type) && type.IsGenericType)
             {
                 Type resultType = type.GenericTypeArguments[0];
-                
-                var readTask = content.ReadAsAsync(resultType, new List<MediaTypeFormatter> { DefineFormatter(this.Accept, resultType) });
+
+                var readTask = response.ContinueWith(task => task.Result.Content.ReadAsAsync(resultType, new List<MediaTypeFormatter> { DefineFormatter(this.Accept, resultType) }));
 
                 var continueWith = typeof(Task<object>).GetMethods()
                  .Where(m => m.Name == "ContinueWith" && m.IsGenericMethod)
@@ -32,11 +32,12 @@ namespace SomethingRest.Core.Content
                 var continueWithGeneric = continueWith.MakeGenericMethod(resultType);
 
                 var convertMethod = this.GetType().GetMethod("Convert", BindingFlags.NonPublic | BindingFlags.Instance).MakeGenericMethod(resultType);
-
-                return continueWithGeneric.Invoke(readTask, new[] { convertMethod.Invoke(this, null) });
+                var convertMethodTask = convertMethod.Invoke(this, null);
+                
+                return continueWithGeneric.Invoke(readTask, new[] { convertMethodTask });
             }
 
-            return content.ReadAsAsync(type, new List<MediaTypeFormatter> { DefineFormatter(this.Accept, type) }).Result;
+            return response.Result.Content.ReadAsAsync(type, new List<MediaTypeFormatter> { DefineFormatter(this.Accept, type) }).Result;
         }
 
         protected Func<Task<object>, TTarget> Convert<TTarget>() where TTarget : class

@@ -123,7 +123,7 @@ namespace SomethingRest.Core.Implementator
                 }
 
                 Task<HttpResponseMessage> response = request.Make(url, content);
-                var result = contentSource.Read(response.Result.Content, data.ReturnType);
+                var result = contentSource.Read(response, data.ReturnType);
                 return result;
             }
         }
