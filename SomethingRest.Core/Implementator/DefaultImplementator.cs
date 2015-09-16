@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using SomethingRest.Core.Attributes;
 using SomethingRest.Core.Content;
 using SomethingRest.Core.RequestMakers;
+using SomethingRest.Core.MemberImplementations;
 
 namespace SomethingRest.Core.Implementator
 {

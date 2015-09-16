@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SomethingRest.Core
+namespace SomethingRest.Core.MemberImplementations
 {
-    public class CallParameters : IDataContainer
+    public class CallParameters
     {
         public string Url { get; set; }
 

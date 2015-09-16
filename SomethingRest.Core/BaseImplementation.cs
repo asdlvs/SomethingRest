@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using SomethingRest.Core.Attributes;
 using SomethingRest.Core.Implementator;
+using SomethingRest.Core.InterfaceImplementations;
 
 namespace SomethingRest.Core
 {

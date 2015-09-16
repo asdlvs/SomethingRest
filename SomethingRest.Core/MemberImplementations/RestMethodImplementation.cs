@@ -28,7 +28,7 @@ namespace SomethingRest.Core.MemberImplementations
 
             ILGenerator ilGen = methodBuilder.GetILGenerator();
             ilGen.DeclareLocal(typeof(List<object>));
-            ilGen.DeclareLocal(typeof(RestMethodParameters));
+            ilGen.DeclareLocal(typeof(CallParameters));
 
             ilGen.Emit(OpCodes.Newobj, typeof(List<object>).GetConstructor(new Type[0]));
             ilGen.Emit(OpCodes.Stloc_0);
@@ -40,23 +40,23 @@ namespace SomethingRest.Core.MemberImplementations
                 ilGen.Emit(OpCodes.Callvirt, typeof(List<object>).GetMethod("Add"));
             }
 
-            ilGen.Emit(OpCodes.Newobj, typeof(RestMethodParameters).GetConstructor(new Type[0]));
+            ilGen.Emit(OpCodes.Newobj, typeof(CallParameters).GetConstructor(new Type[0]));
 
             ilGen.Emit(OpCodes.Dup);
             ilGen.Emit(OpCodes.Ldstr, "http://tempuri/");
-            ilGen.Emit(OpCodes.Callvirt, typeof(RestMethodParameters).GetMethod("set_Url"));
+            ilGen.Emit(OpCodes.Callvirt, typeof(CallParameters).GetMethod("set_Url"));
 
             ilGen.Emit(OpCodes.Dup);
             ilGen.Emit(OpCodes.Ldstr, "GET");
-            ilGen.Emit(OpCodes.Callvirt, typeof(RestMethodParameters).GetMethod("set_Method"));
+            ilGen.Emit(OpCodes.Callvirt, typeof(CallParameters).GetMethod("set_Method"));
 
             ilGen.Emit(OpCodes.Dup);
             ilGen.Emit(OpCodes.Ldstr, "Application/JSON");
-            ilGen.Emit(OpCodes.Callvirt, typeof(RestMethodParameters).GetMethod("set_ContentType"));
+            ilGen.Emit(OpCodes.Callvirt, typeof(CallParameters).GetMethod("set_ContentType"));
 
             ilGen.Emit(OpCodes.Dup);
             ilGen.Emit(OpCodes.Ldloc_0);
-            ilGen.Emit(OpCodes.Callvirt, typeof(RestMethodParameters).GetMethod("set_Parameters"));
+            ilGen.Emit(OpCodes.Callvirt, typeof(CallParameters).GetMethod("set_Parameters"));
 
             ilGen.Emit(OpCodes.Stloc_1);
             ilGen.Emit(OpCodes.Ldarg_0);
@@ -72,7 +72,7 @@ namespace SomethingRest.Core.MemberImplementations
             ilGen.Emit(OpCodes.Ret);
         }
 
-        public object Invoke(RestMethodParameters parameters)
+        public object Invoke(CallParameters parameters)
         {
             return parameters;
         }
