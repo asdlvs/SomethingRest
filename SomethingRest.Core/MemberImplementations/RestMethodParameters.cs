@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SomethingRest.Core.MethodImplementations
+namespace SomethingRest.Core.MemberImplementations
 {
     public class RestMethodParameters
     {

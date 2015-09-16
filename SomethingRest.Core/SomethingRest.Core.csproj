@@ -43,10 +43,11 @@
     <Compile Include="Attributes\RestMethod.cs" />
     <Compile Include="Attributes\RestMethodAttribute.cs" />
     <Compile Include="InterfaceImplementations\RestImplementation.cs" />
-    <Compile Include="MethodImplementations\RestMethodParameters.cs" />
+    <Compile Include="MemberImplementations\PropertyImplementation.cs" />
+    <Compile Include="MemberImplementations\RestMethodParameters.cs" />
     <Compile Include="InterfaceImplementations\IInterfaceImplementation.cs" />
-    <Compile Include="MethodImplementations\IMethodImplementation.cs" />
-    <Compile Include="MethodImplementations\RestMethodImplementation.cs" />
+    <Compile Include="MemberImplementations\IMethodImplementation.cs" />
+    <Compile Include="MemberImplementations\RestMethodImplementation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="InterfaceImplementations\BaseImplementation.cs" />
   </ItemGroup>
