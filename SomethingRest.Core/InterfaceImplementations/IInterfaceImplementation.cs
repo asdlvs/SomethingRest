@@ -1,4 +1,4 @@
-﻿namespace SomethingRest.Core
+﻿namespace SomethingRest.Core.InterfaceImplementations
 {
     public interface IInterfaceImplementation
     {

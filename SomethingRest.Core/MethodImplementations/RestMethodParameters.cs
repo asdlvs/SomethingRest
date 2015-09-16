@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
 
-namespace SomethingRest.Core
+namespace SomethingRest.Core.MethodImplementations
 {
-    public class CallParameters : IDataContainer
+    public class RestMethodParameters
     {
         public string Url { get; set; }
 
         public string Method { get; set; }
+
+        public string ContentType { get; set; }
 
         public List<object> Parameters { get; set; }
     }
