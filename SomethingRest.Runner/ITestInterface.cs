@@ -1,10 +1,22 @@
-﻿namespace SomethingRest.Runner
+﻿using System.Threading.Tasks;
+using SomethingRest.Core;
+using SomethingRest.Core.Attributes;
+
+namespace SomethingRest.Runner
 {
+    [RestContract("http://localhost:5000/api/", "application/json", "application/json")]
     public interface ITestInterface
     {
-        object Test1(string url1, string url2);
+        [RestMethod("values/{id}")]
+        Task<Product> Get(int id);
 
-        object Test2(object o1, string s1);
-        string MyProperty { get; set; }
+        [RestMethod("values", RequestMethod.Post)]
+        int Post(Product value);
+
+        [RestMethod("values", RequestMethod.Put)]
+        void Put(int id, Product value);
+
+        [RestMethod("values", RequestMethod.Delete)]
+        void Delete(int id);
     }
 }

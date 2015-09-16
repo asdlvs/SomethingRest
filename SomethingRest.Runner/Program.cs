@@ -1,5 +1,5 @@
-﻿using SomethingRest.Core;
-using SomethingRest.Core.InterfaceImplementations;
+﻿using System;
+using SomethingRest.Core;
 
 namespace SomethingRest.Runner
 {
@@ -7,18 +7,29 @@ namespace SomethingRest.Runner
     {
         static void Main(string[] args)
         {
-            var instance = new RestImplementation().Implement<ITestInterface>();
-            instance.MyProperty = "1";
-            var res = instance.Test1("Hello", " world");
-            var res2 = instance.Test2(new { A = 1, B = 2 }, "Hlelo wrodl");
+            var instance = new BaseImplementation().Implement<ITestInterface>();
 
-            var test = new Test();
-            test.TestStringProperty = "Hello world";
+            for (var i = 0; i < 10; i++)
+            {
+                var newP = new Product
+                {
+                    Customer = new Customer
+                    {
+                        FirstName = "Vitaliy" + i,
+                        LastName = "Lebedev" + i*2
+                    },
+                    Name = "IPad" + i*3,
+                    Id = i
+                };
+                var id = instance.Post(newP);
+
+                var asyn = instance.Get(id);
+                var product = asyn.Result;
+
+                Console.WriteLine(newP.Equals(product));
+            }
+
+            Console.ReadKey();
         }
-    }
-
-    class Test
-    {
-        public string TestStringProperty { get; set; }
     }
 }

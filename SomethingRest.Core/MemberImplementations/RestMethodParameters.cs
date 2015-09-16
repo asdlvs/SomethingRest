@@ -1,15 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
-namespace SomethingRest.Core.MemberImplementations
+namespace SomethingRest.Core
 {
-    public class RestMethodParameters
+    public class CallParameters : IDataContainer
     {
         public string Url { get; set; }
 
-        public string Method { get; set; }
+        public RequestMethod Method { get; set; }
+
+        public string Accept { get; set; }
 
         public string ContentType { get; set; }
 
-        public List<object> Parameters { get; set; }
+        public Type ReturnType { get; set; }
+
+        public Dictionary<string, object> Parameters { get; set; }
     }
 }
